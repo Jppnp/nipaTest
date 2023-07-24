@@ -45,7 +45,7 @@ const TicketTable = ({ tickets }) => {
   };
 
   const statusVariant = (status) => {
-    console.log(`status: `, status)
+    console.log(`status: `, status);
     switch (status) {
       case "Pending":
         return "secondary";
@@ -62,17 +62,23 @@ const TicketTable = ({ tickets }) => {
 
   return (
     <div className="table-responsive">
-      <Table striped bordered hover>
+      <Table striped hover>
         <thead>
           <tr>
             <th>Status</th>
-            <th onClick={() => handleSort("createdTimestamp")}>
+            <th
+              onClick={() => handleSort("createdTimestamp")}
+              style={{ cursor: "pointer" }}
+            >
               Created Timestamp {getSortIndicator("createdTimestamp")}
             </th>
             <th>Title</th>
             <th>Description</th>
             <th>Contact Information</th>
-            <th onClick={() => handleSort("latestUpdateTimestamp")}>
+            <th
+              onClick={() => handleSort("latestUpdateTimestamp")}
+              style={{ cursor: "pointer" }}
+            >
               Latest Update Timestamp{" "}
               {getSortIndicator("latestUpdateTimestamp")}
             </th>
@@ -82,9 +88,7 @@ const TicketTable = ({ tickets }) => {
           {currentItems.map((ticket) => (
             <tr key={ticket.id}>
               <td>
-                <Badge bg={statusVariant(ticket.status)}>
-                  {ticket.status}
-                </Badge>
+                <Badge bg={statusVariant(ticket.status)}>{ticket.status}</Badge>
               </td>
               <td>{ticket.createdTimestamp}</td>
               <td>{ticket.title}</td>
