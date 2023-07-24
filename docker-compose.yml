@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  db:
+    container_name: db
+    image: postgres:15-alpine
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    ports:
+      - '6500:5432'
+    env_file:
+      - ./app.env
+    networks:
+      - nipa.cloud
+  server:
+    container_name: server_node
+    build: backend
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./backend:/usr/app/
+      - /usr/app/node_modules
+    depends_on:
+      - db
+    networks:
+      - nipa.cloud
+  client:
+    container_name: client_next
+    build: frontend
+    ports:
+      - '3030:3030'
+    volumes:
+      - ./frontend:/usr/app/
+      - /usr/app/node_modules
+    depends_on:
+      - db
+    networks:
+      - nipa.cloud
+volumes:
+  postgres_data:
+networks:
+  nipa.cloud:
+    driver: bridge
